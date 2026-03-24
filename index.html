@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Vocab Master Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/library.css">
+    <link rel="stylesheet" href="css/ai.css">
+    <link rel="stylesheet" href="css/practice.css">
+    <link rel="stylesheet" href="css/dark.css">
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <main class="content-area">
+
+            <section id="tab-home" class="tab-content active">
+
+                <div class="home-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px 5px 0;">
+                    <div>
+                        <p class="text-muted" style="font-size: 0.95rem; font-weight: 600; margin-bottom: 4px;"
+                            id="greeting-text">Chào buổi sáng,</p>
+                        <h2
+                            style="font-size: 1.5rem; color: var(--text-main); margin: 0; font-weight: 800; letter-spacing: -0.5px;">
+                            Chăm chỉ lên nhé! 🔥</h2>
+                    </div>
+                    <div
+                        style="width: 55px; height: 55px; border-radius: 18px; background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                </div>
+
+                <div class="card"
+                    style="padding: 25px 20px; display: flex; align-items: center; gap: 20px; background: linear-gradient(135deg, #ffffff, #f8fafc); border: 1px solid rgba(255,255,255,0.9);">
+                    <div
+                        style="position: relative; width: 85px; height: 85px; flex-shrink: 0; drop-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+                            <path class="circle-bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="#e2e8f0" stroke-width="3.5" />
+                            <path class="circle-progress" id="goal-progress-circle"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="var(--primary-color)" stroke-width="3.5" stroke-dasharray="0, 100"
+                                stroke-linecap="round"
+                                style="transition: stroke-dasharray 1s cubic-bezier(0.4, 0, 0.2, 1);" />
+                        </svg>
+                        <div
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                            <span id="goal-percentage"
+                                style="font-weight: 800; font-size: 1.15rem; color: var(--primary-color);">0%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+                            Tiến độ học tập</h3>
+                        <p class="text-muted" style="font-size: 0.85rem; line-height: 1.5;">Đã ôn tập <b
+                                id="goal-learned-count" style="color: var(--primary-color); font-size: 1rem;">0</b> /
+                            <span id="goal-total-count">10</span> từ vựng. Cố gắng đạt mục tiêu nhé!</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid mt-15">
+                    <div class="stat-box"
+                        style="background: linear-gradient(135deg, #e0e7ff, #ede9fe); border: 1px solid #c7d2fe; box-shadow: 0 8px 15px rgba(99,102,241,0.08); padding: 20px 15px;">
+                        <i class="fas fa-layer-group"
+                            style="color: #6366f1; font-size: 1.6rem; margin-bottom: 10px; display: block;"></i>
+                        <span class="stat-number" id="stat-total-words"
+                            style="color: #4f46e5; font-size: 2rem;">0</span>
+                        <span class="stat-label" style="color: #6366f1; font-weight: 700; font-size: 0.85rem;">Tổng số
+                            từ</span>
+                    </div>
+                    <div class="stat-box"
+                        style="background: linear-gradient(135deg, #d1fae5, #ecfdf5); border: 1px solid #a7f3d0; box-shadow: 0 8px 15px rgba(16,185,129,0.08); padding: 20px 15px;">
+                        <i class="fas fa-brain"
+                            style="color: #10b981; font-size: 1.6rem; margin-bottom: 10px; display: block;"></i>
+                        <span class="stat-number" id="stat-mastered-words"
+                            style="color: #059669; font-size: 2rem;">0</span>
+                        <span class="stat-label" style="color: #10b981; font-weight: 700; font-size: 0.85rem;">Đã ghi
+                            nhớ sâu</span>
+                    </div>
+                </div>
+
+                <h3
+                    style="font-size: 1.1rem; font-weight: 800; margin: 25px 0 15px 5px; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;">
+                    Phím tắt nhanh</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="card action-card-home"
+                        onclick="document.querySelector('[data-target=\'tab-add\']').click()">
+                        <div
+                            style="width: 46px; height: 46px; border-radius: 14px; background: rgba(99, 102, 241, 0.1); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4
+                                style="font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; color: var(--text-main);">
+                                Khám phá từ mới</h4>
+                            <p class="text-muted" style="font-size: 0.8rem;">Dùng AI phân tích chủ đề</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-muted" style="font-size: 1.2rem; opacity: 0.5;"></i>
+                    </div>
+
+                    <div class="card action-card-home"
+                        onclick="document.querySelector('[data-target=\'tab-practice\']').click()">
+                        <div
+                            style="width: 46px; height: 46px; border-radius: 14px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4
+                                style="font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; color: var(--text-main);">
+                                Ôn tập cấp tốc</h4>
+                            <p class="text-muted" style="font-size: 0.8rem;">Vào đấu trường kiểm tra ngay</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-muted" style="font-size: 1.2rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-topics" class="tab-content">
+                <div class="library-header">
+                    <div>
+                        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">Thư viện của bạn</h2>
+                        <p class="text-muted" style="font-size: 0.9rem;">Quản lý và theo dõi tiến độ từng chủ đề.</p>
+                    </div>
+                    <button class="btn-notebook" onclick="openNotebook()">
+                        <i class="fas fa-book-open"></i> Sổ tay
+                    </button>
+                </div>
+                
+                <div class="topic-grid mt-15" id="topic-grid-container"></div>
+            </section>
+
+            <section id="tab-add" class="tab-content">
+                <h2 style="margin-bottom: 15px; font-size: 1.25rem; padding-left: 5px;">Khám phá từ vựng</h2>
+
+                <div class="card" style="padding-bottom: 15px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.05rem; font-weight: 700;">1. Cung cấp dữ liệu cho AI</h3>
+                            <p class="text-muted" style="font-size: 0.8rem;">Chọn cách bạn muốn học hôm nay</p>
+                        </div>
+                    </div>
+
+                    <div class="ai-input-tabs">
+                        <button class="ai-tab-btn active" onclick="switchAIInput('topic', this)">📝 Chủ đề ngắn</button>
+                        <button class="ai-tab-btn" onclick="switchAIInput('transcript', this)"><i class="fab fa-youtube" style="color:#ef4444;"></i> Transcript/Bài báo</button>
+                    </div>
+
+                    <div id="ai-mode-topic">
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <input type="text" id="topic-input" class="form-control" placeholder="VD: Sân bay, Phỏng vấn..." style="font-size: 1.05rem; padding: 14px; font-weight: 700; border-radius: 16px;">
+                        </div>
+                        <div class="quick-suggestions mb-15">
+                            <span class="suggestion-chip" onclick="document.getElementById('topic-input').value = this.innerText">✈️ Thủ tục tại Sân bay</span>
+                            <span class="suggestion-chip" onclick="document.getElementById('topic-input').value = this.innerText">💼 Phỏng vấn xin việc</span>
+                            <span class="suggestion-chip" onclick="document.getElementById('topic-input').value = this.innerText">☕ Giao tiếp Quán cà phê</span>
+                        </div>
+                    </div>
+
+                    <div id="ai-mode-transcript" style="display: none; margin-bottom: 15px;">
+                        <textarea id="transcript-input" class="form-control" rows="4" placeholder="Dán toàn bộ phụ đề YouTube hoặc bài báo tiếng Anh vào đây..." style="border-radius: 16px; resize: vertical; padding: 14px; font-size: 0.95rem; line-height: 1.5; background: rgba(0,0,0,0.02);"></textarea>
+                    </div>
+
+                    <div class="advanced-ai-settings">
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; display: block;"><i class="fas fa-sliders-h"></i> Tùy chỉnh thông số AI</label>
+                        <div class="settings-grid">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label>Mục tiêu</label>
+                                <select id="setting-ai-focus" class="form-control form-control-sm">
+                                    <option value="general">Nền tảng</option>
+                                    <option value="communication" selected>Giao tiếp thực chiến</option>
+                                    <option value="business">Công sở</option>
+                                    <option value="academic">Học thuật (IELTS)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label>Trình độ</label>
+                                <select id="setting-ai-level" class="form-control form-control-sm">
+                                    <option value="A1-A2">A1-A2 (Mới)</option>
+                                    <option value="B1-B2" selected>B1-B2 (Khá)</option>
+                                    <option value="C1-C2">C1-C2 (Giỏi)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0; grid-column: span 2;">
+                                <label style="display: flex; justify-content: space-between;">
+                                    <span>Số lượng từ bóc tách:</span> 
+                                    <span id="val-ai-num" style="color: var(--primary-color); font-weight: 800; font-size: 1.1rem;">10</span>
+                                </label>
+                                <input type="range" id="setting-ai-num" min="5" max="30" value="10" step="5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary mt-15" onclick="generatePrompt()" id="btn-ai-gen">
+                        <i class="fas fa-magic" style="margin-right: 8px;"></i> Tạo Lệnh & Mở ChatGPT
+                    </button>
+
+                    <div id="ai-output-area" style="display: none; margin-top: 15px; text-align: center;">
+                        <textarea id="prompt-output" style="opacity: 0; position: absolute; z-index: -1;"></textarea>
+                    </div>
+                </div>
+
+                <div class="card mt-15" style="border: 1px solid rgba(16, 185, 129, 0.3); background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), transparent);">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #10b981, #059669); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.05rem; font-weight: 700; color: #059669;">2. Nhận kết quả</h3>
+                            <p class="text-muted" style="font-size: 0.8rem;">Dán code JSON từ ChatGPT vào đây</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea id="json-input" rows="3" placeholder="Chạm để dán kết quả..." style="background: white; border: 2px dashed rgba(16, 185, 129, 0.4); font-size: 0.95rem; text-align: center; padding: 20px 10px; transition: 0.2s; border-radius: 16px;"></textarea>
+                    </div>
+                    <button class="btn" onclick="importVocab()" style="background: #10b981; color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">
+                        <i class="fas fa-check-circle" style="margin-right: 5px;"></i> Lưu vào thư viện
+                    </button>
+                </div>
+            </section>
+
+            <section id="tab-practice" class="tab-content">
+                
+                <div id="practice-setup" style="padding-top: 10px;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">Đấu trường từ vựng</h2>
+                        <p class="text-muted" style="font-size: 0.95rem;">Chọn chế độ và bắt đầu rèn luyện trí nhớ.</p>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="font-weight: 700; color: var(--text-main); margin-bottom: 10px;">Bộ từ vựng hiện tại</label>
+                        <select id="practice-topic" class="form-control select-premium">
+                            <option value="all">🔥 Kiểm tra toàn bộ thư viện</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="font-weight: 700; color: var(--text-main); margin-bottom: 10px;">Chọn kỹ năng (Bấm để chiến ngay)</label>
+                        <div class="practice-modes">
+                            <div class="mode-card action-card" onclick="startSpecificPractice('quiz')">
+                                <div class="mode-content"><i class="fas fa-list-ul"></i><span>Trắc nghiệm</span></div>
+                            </div>
+                            <div class="mode-card action-card" onclick="startSpecificPractice('typing')">
+                                <div class="mode-content"><i class="fas fa-keyboard"></i><span>Nhìn & Gõ</span></div>
+                            </div>
+                            <div class="mode-card action-card" onclick="startSpecificPractice('dictation')">
+                                <div class="mode-content" style="background: linear-gradient(135deg, #e0e7ff, #ede9fe); color: #4f46e5; border-color: #818cf8;">
+                                    <i class="fas fa-headphones-alt"></i><span>Nghe & Gõ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="practice-workspace" style="display: none; flex-direction: column; min-height: 75vh; position: relative; padding-bottom: 80px;">
+                    
+                    <div class="practice-header-modern">
+                        <button onclick="endPractice()" class="btn-close-modern"><i class="fas fa-times"></i></button>
+                        <div class="session-progress-container">
+                            <div class="session-progress-bar" id="session-progress-bar"></div>
+                        </div>
+                        <div class="streak-badge" id="practice-score-label"><i class="fas fa-fire"></i> <span id="practice-q-count">1/10</span></div>
+                    </div>
+
+                    <div id="practice-content-area" style="flex: 1; display: flex; flex-direction: column;">
+                        
+                        <div id="mode-quiz" style="display: none; flex-direction: column; align-items: center; width: 100%;">
+                            <p class="quiz-subtitle-text">CÂU HỎI TRẮC NGHIỆM</p>
+                            <div class="glass-word-card">
+                                <h3 class="word-modern" id="quiz-question">WORD</h3>
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 10px;">
+                                    <p class="phonetic-modern" id="quiz-phonetic">/phonetic/</p>
+                                    <button onclick="speakQuizWord()" class="btn-audio-modern"><i class="fas fa-volume-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="quiz-options-modern" id="quiz-options"></div>
+                        </div>
+
+                        <div id="mode-flashcard" style="display: none; width: 100%;">
+                            <p class="quiz-subtitle-text">LẬT THẺ GHI NHỚ</p>
+                            <div class="flashcard-scene" onclick="flipCard()">
+                                <div class="flashcard-inner" id="flashcard-element">
+                                    <div class="flashcard-face flashcard-front">
+                                        <span id="fc-icon" style="font-size: 4rem; margin-bottom: 15px;"></span>
+                                        <h3 id="fc-word" style="font-size: 2.5rem; color: var(--text-main);">Word</h3>
+                                        <p id="fc-phonetic" class="text-muted mt-10">/phonetic/</p>
+                                        <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Chạm để xem nghĩa</div>
+                                    </div>
+                                    <div class="flashcard-face flashcard-back">
+                                        <h3 id="fc-meaning" style="font-size: 1.8rem; color: var(--primary-color); margin-bottom: 10px;">Nghĩa</h3>
+                                        <p id="fc-type" style="font-size: 0.9rem; font-weight: bold; color: var(--text-muted); margin-bottom: 15px;">Loại từ</p>
+                                        <div id="fc-example" style="font-style: italic; background: rgba(255,255,255,0.5); padding: 15px; border-radius: 12px; font-size: 0.95rem; width: 100%;">Ví dụ</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 15px; margin-top: 20px;" id="fc-controls">
+                                <button class="btn btn-outline" onclick="markFlashcard(false)" style="color: var(--danger-color); border-color: var(--danger-color); background: rgba(239,68,68,0.05);">Chưa thuộc ❌</button>
+                                <button class="btn btn-primary" onclick="markFlashcard(true)" style="background: #10b981; border-color: #10b981; box-shadow: 0 8px 20px rgba(16,185,129,0.3);">Đã thuộc ✅</button>
+                            </div>
+                        </div>
+
+                        <div id="mode-typing" class="card text-center mode-typing-card" style="display: none; width: 100%;">
+                            <span id="type-icon" style="font-size: 4rem; margin-bottom: 15px; display: block;"></span>
+                            <h3 id="type-meaning" style="font-size: 1.8rem; color: var(--primary-color); margin-bottom: 5px;">Nghĩa của từ</h3>
+                            <p id="type-hint" class="text-muted" style="font-size: 0.95rem; margin-bottom: 25px; letter-spacing: 2px;">Gợi ý: _ _ _</p>
+                            <div class="form-group"><input type="text" id="type-input" placeholder="Gõ tiếng Anh vào đây..." class="typing-input" autocomplete="off"></div>
+                            <button class="btn btn-primary mt-15" onclick="checkTyping('type-input')" style="border-radius: 14px; padding: 14px; font-size: 1.05rem;">Xác nhận 🚀</button>
+                        </div>
+
+                        <div id="mode-dictation" class="card text-center mode-typing-card" style="display: none; width: 100%;">
+                            <button onclick="speakQuizWord()" class="btn-audio-massive"><i class="fas fa-headphones"></i></button>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 25px; color: var(--text-main); font-weight: 700;">Nghe và gõ lại từ vựng</h3>
+                            <div class="form-group"><input type="text" id="dict-input" placeholder="Nhập từ bạn nghe được..." class="typing-input" autocomplete="off"></div>
+                            <button class="btn btn-primary mt-15" onclick="checkTyping('dict-input')" style="border-radius: 14px; padding: 14px; font-size: 1.05rem;">Kiểm tra 🚀</button>
+                        </div>
+
+                        <div id="quiz-explanation" class="glass-explanation mt-15" style="display: none;"></div>
+                    </div>
+
+                    <div class="fixed-bottom-action">
+                        <button class="btn-next-modern" id="btn-next-practice" style="display: none;" onclick="nextPractice()">TIẾP TỤC <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></button>
+                    </div>
+                </div>
+
+                <div id="practice-result" style="display: none; text-align: center; padding-top: 20px;">
+                    <div style="font-size: 5rem; margin-bottom: 10px; animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);">🎉</div>
+                    <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px;">Hoàn thành xuất sắc!</h2>
+                    <p class="text-muted" style="font-size: 1rem; margin-bottom: 30px;">Bạn đã hoàn thành phiên ôn tập.</p>
+
+                    <div class="result-stats-grid">
+                        <div class="result-stat-box">
+                            <span class="rs-label">Độ chính xác</span>
+                            <span class="rs-value" id="rs-accuracy">0%</span>
+                        </div>
+                        <div class="result-stat-box">
+                            <span class="rs-label">Điểm số</span>
+                            <span class="rs-value" id="rs-score" style="color: #f59e0b;"><i class="fas fa-fire"></i> 0</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 30px;">
+                        <button class="btn btn-primary" onclick="restartPractice()" style="padding: 16px; border-radius: 18px; font-size: 1.1rem; box-shadow: 0 8px 20px rgba(99,102,241,0.3);">
+                            <i class="fas fa-redo" style="margin-right: 8px;"></i> Học lại chủ đề này
+                        </button>
+                        <button class="btn btn-outline" onclick="endPractice()" style="padding: 16px; border-radius: 18px; font-size: 1.1rem; border-color: var(--border-color); color: var(--text-muted);">
+                            <i class="fas fa-home" style="margin-right: 8px;"></i> Về trang chủ
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="tab-settings" class="tab-content">
+                <div class="settings-header">
+                    <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">Cài đặt hệ thống</h2>
+                    <p class="text-muted" style="font-size: 0.95rem;">Cá nhân hóa trải nghiệm học tập của bạn.</p>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="settings-group-title">TRẢI NGHIỆM</h3>
+                    <div class="settings-card">
+                        <div class="setting-item">
+                            <div class="setting-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);"><i class="fas fa-moon"></i></div>
+                            <div class="setting-details">
+                                <span class="setting-name">Chế độ tối (Dark Mode)</span>
+                                <span class="setting-desc">Bảo vệ mắt khi học ban đêm</span>
+                            </div>
+                            <label class="switch"><input type="checkbox" id="setting-darkmode"><span class="slider round"></span></label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-icon" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fas fa-volume-up"></i></div>
+                            <div class="setting-details">
+                                <span class="setting-name">Tự động phát âm</span>
+                                <span class="setting-desc">Đọc từ vựng chuẩn bản xứ khi lật thẻ</span>
+                            </div>
+                            <label class="switch"><input type="checkbox" id="setting-auto-audio" checked><span class="slider round"></span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="settings-group-title">HỌC TẬP</h3>
+                    <div class="settings-card">
+                        <div class="setting-item" style="border-bottom: none;">
+                            <div class="setting-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fas fa-bullseye"></i></div>
+                            <div class="setting-details">
+                                <span class="setting-name">Mục tiêu mỗi ngày</span>
+                                <span class="setting-desc">Số lượng từ vựng cần ôn tập</span>
+                            </div>
+                            <input type="number" id="setting-goal" class="setting-input-number" value="10" min="1" max="100">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="settings-group-title">DỮ LIỆU ĐỒNG BỘ</h3>
+                    <div class="settings-card data-card">
+                        <div class="setting-item" style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">
+                            <div class="setting-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fas fa-cloud"></i></div>
+                            <div class="setting-details">
+                                <span class="setting-name">Quản lý File sao lưu</span>
+                                <span class="setting-desc">Lưu trữ an toàn tiến độ học của bạn</span>
+                            </div>
+                        </div>
+                        <div class="data-actions">
+                            <button class="btn-data btn-export" onclick="exportData()"><i class="fas fa-download"></i> Tải bản sao lưu</button>
+                            <button class="btn-data btn-import" onclick="document.getElementById('import-file').click()"><i class="fas fa-upload"></i> Phục hồi dữ liệu</button>
+                            <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importDataFromFile(event)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group danger-zone-group">
+                    <h3 class="settings-group-title text-danger"><i class="fas fa-exclamation-triangle"></i> KHU VỰC NGUY HIỂM</h3>
+                    <div class="settings-card danger-card">
+                        <button class="btn-danger-outline" onclick="resetProgress()">
+                            <i class="fas fa-history"></i> Khởi tạo lại tiến độ học (0 điểm)
+                        </button>
+                        <button class="btn-danger-solid" onclick="clearAllData()">
+                            <i class="fas fa-trash-alt"></i> Xóa toàn bộ Thư viện từ vựng
+                        </button>
+                    </div>
+                </div>
+
+                <div class="app-version text-center">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 10px; border-radius: 18px; background: linear-gradient(135deg, #1e293b, #0f172a); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h4 style="font-weight: 800; color: var(--text-main); font-size: 1.1rem; margin-bottom: 4px;">AI Vocab Master Pro</h4>
+                    <p class="text-muted" style="font-size: 0.85rem; font-weight: 600;">Phiên bản 3.0.0 • EdTech Edition</p>
+                    <p style="font-size: 0.75rem; color: #cbd5e1; margin-top: 15px;">© 2026 Crafted for English Learners</p>
+                </div>
+            </section>
+
+            <div id="topic-modal" class="modal-overlay" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="btn-close-modal" onclick="closeTopicModal()"><i
+                                class="fas fa-chevron-down"></i></button>
+                        <h2 id="modal-topic-title">Sổ tay từ vựng</h2>
+                        <div style="width: 36px;"></div>
+                    </div>
+                    <div style="padding: 15px 20px 5px;">
+                        <input type="text" id="search-notebook" class="form-control"
+                            placeholder="🔍 Tìm kiếm từ vựng..." onkeyup="searchNotebook()"
+                            style="border-radius: 12px; background: var(--bg-color);">
+                    </div>
+                    <ul id="modal-word-list" class="modal-word-list" style="padding-top: 10px;"></ul>
+                </div>
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="tab-home" data-title="Trang chủ">
+                <i class="fas fa-chart-pie"></i><span>Tổng quan</span>
+            </button>
+            <button class="nav-item" data-target="tab-topics" data-title="Thư viện">
+                <i class="fas fa-layer-group"></i><span>Thư viện</span>
+            </button>
+            <button class="nav-item action-btn" data-target="tab-add" data-title="Khám phá">
+                <div class="add-btn-wrapper"><i class="fas fa-plus"></i></div><span>Tạo mới</span>
+            </button>
+            <button class="nav-item" data-target="tab-practice" data-title="Ôn tập">
+                <i class="fas fa-brain"></i><span>Ôn tập</span>
+            </button>
+            <button class="nav-item" data-target="tab-settings" data-title="Cài đặt">
+                <i class="fas fa-sliders-h"></i><span>Cài đặt</span>
+            </button>
+        </nav>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
+</body>
+
+</html>

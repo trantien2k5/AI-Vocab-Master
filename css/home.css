@@ -1,0 +1,33 @@
+/* =========================================
+   TRANG CHỦ (HOME DASHBOARD)
+   ========================================= */
+.home-header { animation: fadeIn 0.4s ease; }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.stat-box {
+    background: var(--primary-light); padding: 15px; border-radius: 12px; text-align: center;
+}
+.stat-box .stat-number { display: block; font-size: 1.6rem; font-weight: 700; color: var(--primary-color); }
+.stat-box .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+/* Nút Quick Action */
+.action-card-home { 
+    margin: 0 !important; padding: 18px 20px !important; 
+    display: flex; align-items: center; gap: 15px; cursor: pointer; 
+    border: 1px solid var(--border-color) !important;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    border-radius: 20px;
+}
+.action-card-home:hover { 
+    transform: translateX(5px); 
+    border-color: var(--primary-light) !important; 
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.1) !important; 
+}
+.action-card-home:active { transform: translateX(0) scale(0.98); }
+
+/* Dark Mode */
+body.dark-theme .action-card-home { background: var(--card-bg); border-color: var(--border-color) !important; }
+body.dark-theme .circle-bg { stroke: #334155 !important; }
+body.dark-theme #tab-home .card { background: var(--card-bg) !important; border-color: var(--border-color) !important; }

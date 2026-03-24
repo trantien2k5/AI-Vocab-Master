@@ -1,0 +1,19 @@
+body.dark-theme {
+    --bg-color: #0f172a; --card-bg: #1e293b; --nav-bg: rgba(30, 41, 59, 0.9);
+    --text-main: #f8fafc; --text-muted: #94a3b8;
+    --border-color: #334155; --primary-light: #312e81;
+
+    .app-header h1 { background: linear-gradient(135deg, #f8fafc, #94a3b8); -webkit-background-clip: text; background-clip: text; }
+    input[type="text"], input[type="number"], textarea, select { background-color: #0f172a; color: #f8fafc; border-color: #334155; }
+    .btn-outline { border-color: var(--primary-color); color: #818cf8; }
+    
+    .topic-list li { background: #0f172a; }
+    .quiz-explanation { background: var(--bg-color); border-color: var(--border-color); &.correct-exp { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); } &.wrong-exp { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); } }
+    
+    .modal-overlay { background: var(--bg-color); }
+    .modal-content { background: var(--bg-color); }
+    .modal-word-list li { background: var(--card-bg); border-color: var(--border-color); box-shadow: none; }
+    .modal-word-icon { background: #0f172a; box-shadow: none; }
+}
+
+@media (min-width: 768px) { body.dark-theme .modal-overlay { background: rgba(0,0,0,0.7); } }

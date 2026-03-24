@@ -1,0 +1,141 @@
+:root {
+    /* Hệ màu Premium (Vibrant Indigo & Soft Pastel) */
+    --primary-color: #6366f1; 
+    --primary-hover: #4f46e5; 
+    --primary-light: #e0e7ff;
+    --text-main: #0f172a; 
+    --text-muted: #64748b;
+    --bg-color: #f8fafc; 
+    --card-bg: rgba(255, 255, 255, 0.85); /* Trong suốt nhẹ để ăn nền gradient */
+    --nav-bg: rgba(255, 255, 255, 0.75);
+    --border-color: rgba(226, 232, 240, 0.8); 
+    --danger-color: #ef4444;
+    --radius: 24px; /* Bo góc to hơn, mềm mại hơn */
+    --radius-sm: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+/* --- FIX LỖI DÍNH BÔI ĐEN KHI CLICK NHANH --- */
+h1, h2, h3, h4, h5, h6, button, .nav-item, label, summary, .stat-box, .mode-card, .action-card-home, .topic-card-header {
+    -webkit-user-select: none; /* Safari, Chrome, iOS */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Edge, IE */
+    user-select: none;         /* Chuẩn chung */
+}
+
+/* Mở khóa bôi đen cho các nội dung Từ vựng để User có thể copy bài */
+.word-modern, #fc-word, #fc-meaning, .modal-word-text, .opt-text, #prompt-output, #json-input {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+body { 
+    /* Nền Gradient mượt mà sang chảnh */
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    background-attachment: fixed;
+    color: var(--text-main); 
+    display: flex; justify-content: center; min-height: 100vh; 
+    transition: background 0.4s ease, color 0.4s ease; 
+}
+.app-container {
+    width: 100%; max-width: 480px; height: 100vh;
+    background-color: var(--bg-color); position: relative;
+    display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.app-header {
+    background: var(--nav-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    padding: 15px 20px; text-align: center; border-bottom: 1px solid var(--border-color);
+    position: sticky; top: 0; z-index: 100; transition: background-color 0.3s ease, border-color 0.3s ease;
+    
+    h1 { font-size: 1.15rem; font-weight: 600; }
+}
+
+/* Layout Content */
+.content-area { flex: 1; overflow-y: auto; padding: 20px 15px; padding-bottom: 120px; }
+
+/* Thanh Nav Mobile (Tối giản, bám đáy chuẩn App) */
+.bottom-nav {
+    position: absolute; 
+    bottom: 0; left: 0; width: 100%; /* Tràn 100% và bám sát đáy */
+    background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    display: flex; justify-content: space-around; align-items: center;
+    padding: 10px 5px 15px 5px; /* Thêm đệm dưới cho các dòng máy tràn viền */
+    border-radius: 16px 16px 0 0; /* Chỉ bo nhẹ 2 góc trên */
+    border-top: 1px solid var(--border-color); /* Viền mỏng phân cách */
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.04); /* Bóng hắt nhẹ lên trên */
+    z-index: 100;
+}
+
+.nav-item {
+    background: none; border: none; color: var(--text-muted); cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; gap: 4px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    i { font-size: 1.25rem; transition: transform 0.3s; }
+    &.active { color: var(--primary-color); font-weight: 700; i { transform: translateY(-3px); } }
+}
+
+/* Nút Add thiết kế đặc biệt */
+.add-btn-wrapper {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: white; width: 45px; height: 45px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); margin-bottom: 2px;
+    transition: transform 0.2s;
+    i { font-size: 1.3rem !important; }
+}
+.nav-item.action-btn:active .add-btn-wrapper { transform: scale(0.9); }
+
+/* Hiệu ứng chuyển Tab Mượt Mà */
+.tab-content { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.3s ease, transform 0.3s ease; }
+.tab-content.active { display: block; opacity: 1; transform: translateY(0); }
+
+/* Class tiện ích */
+.mt-10 { margin-top: 10px; } .mt-15 { margin-top: 15px; } .mt-20 { margin-top: 20px; } .text-center { text-align: center; }
+
+/* =========================================
+   GIAO DIỆN DESKTOP (FULL SCREEN TRÀN VIỀN)
+   ========================================= */
+@media (min-width: 768px) {
+    .app-container {
+        max-width: 100%; width: 100%; margin: 0; height: 100vh;
+        border-radius: 0; overflow: hidden;
+        display: grid; 
+        grid-template-columns: 260px 1fr; /* Thanh menu bên trái 260px */
+        grid-template-areas: "nav main"; 
+        box-shadow: none; /* Bỏ bóng đổ viền ngoài */
+    }
+
+    /* Thanh Nav dính chặt vào mép trái */
+    .bottom-nav {
+        grid-area: nav; 
+        position: relative; width: 100%; height: 100%; border-radius: 0;
+        flex-direction: column; justify-content: flex-start; align-items: stretch;
+        padding: 40px 20px; box-shadow: none; border-right: 1px solid var(--border-color);
+        background: rgba(255,255,255,0.4); gap: 10px;
+        left: 0; bottom: 0; 
+    }
+    
+    .nav-item {
+        flex-direction: row; padding: 15px 20px; border-radius: 16px; font-size: 1rem;
+        justify-content: flex-start; gap: 15px; color: var(--text-main); font-weight: 600;
+        
+        i { font-size: 1.25rem; width: 24px; text-align: center; }
+        &.active { background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: var(--primary-color); i { transform: none; } }
+    }
+
+    .add-btn-wrapper { width: 32px; height: 32px; border-radius: 10px; margin-bottom: 0; i { font-size: 1rem !important; } }
+    
+    /* Vùng nội dung tràn khung bên phải, nhưng căn giữa cho dễ đọc */
+    .content-area { 
+        grid-area: main; 
+        padding: 40px; 
+        max-width: 900px; /* Giữ chữ không bị kéo dài thòng lòng trên màn hình quá to */
+        margin: 0 auto; 
+        width: 100%;
+    }
+}
