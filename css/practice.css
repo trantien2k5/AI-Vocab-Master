@@ -1,11 +1,11 @@
 /* =========================================
-   1. WORKSPACE LUYỆN TẬP (LOCKED NATIVE)
+   1. WORKSPACE LUYỆN TẬP (MOBILE FIXED LAYOUT)
    ========================================= */
 #practice-workspace {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%; height: 100%; /* Dùng 100% vì body đã được khóa cứng */
+    width: 100%; height: 100%; 
     display: flex; flex-direction: column; align-items: center;
-    background: var(--bg-color); z-index: 2000; /* Nâng cao lên để che toàn bộ Web */
+    background: var(--bg-color); z-index: 2000;
     overflow: hidden; padding-bottom: calc(90px + env(safe-area-inset-bottom));
 }
 #practice-setup { padding-top: 10px; }
@@ -41,7 +41,7 @@
     box-shadow: 0 4px 10px rgba(250, 204, 21, 0.3); border: 1px solid #fde047; 
 }
 .streak-badge i { color: #ea580c; }
-.streak-badge span { font-variant-numeric: tabular-nums; } /* Chống giật khung khi số nhảy */
+.streak-badge span { font-variant-numeric: tabular-nums; }
 
 /* =========================================
    3. SETUP SCREEN (CHỌN CHẾ ĐỘ)
@@ -70,7 +70,6 @@
     margin-bottom: 15px; text-align: center; 
 }
 
-/* Glassmorphism Card (Dùng chung) */
 .glass-word-card, .glass-explanation { 
     background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
     border: 1px solid rgba(255, 255, 255, 0.9); border-radius: var(--radius); 
@@ -91,7 +90,6 @@
 }
 .btn-audio-modern:active { transform: scale(0.9); }
 
-/* Đáp án ABCD */
 .quiz-options-modern { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; }
 .quiz-option-modern { 
     display: flex; align-items: center; gap: 15px; background: var(--card-bg); 
@@ -108,13 +106,11 @@
 .quiz-option-modern:hover { transform: translateY(-2px); border-color: var(--border-color); box-shadow: var(--shadow-float); }
 .quiz-option-modern:active { transform: scale(0.98); }
 
-/* Màu đúng/sai */
 .quiz-option-modern.correct-ans { background: #d1fae5; border-color: #10b981; color: #065f46; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2); }
 .quiz-option-modern.correct-ans .opt-label { background: #10b981; color: white; border-color: #10b981; }
 .quiz-option-modern.wrong-ans { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
 .quiz-option-modern.wrong-ans .opt-label { background: #ef4444; color: white; border-color: #ef4444; }
 
-/* Nút Tiếp Tục Cố Định Đáy */
 .fixed-bottom-action { position: absolute; bottom: 0; left: 0; width: 100%; padding-top: 15px; display: flex; justify-content: center; }
 .btn-next-modern { 
     width: 100%; background: #10b981; color: white; border: none; 
@@ -157,7 +153,6 @@
 .flip-hint { position: absolute; bottom: 20px; font-size: 0.8rem; color: var(--primary-color); font-weight: 700; opacity: 0.6; animation: pulse 2s infinite; }
 @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-/* Bảng điều khiển Flashcard */
 .flashcard-controls {
     position: fixed; bottom: 0; left: 0; width: 100%; gap: 15px;
     background: var(--card-bg); padding: 15px 25px calc(15px + env(safe-area-inset-bottom)); 
@@ -222,23 +217,6 @@
 
 @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-/* =========================================
-   8. RESPONSIVE PC 
-   ========================================= */
-@media (min-width: 768px) {
-    #practice-workspace { 
-        max-width: 440px !important; margin: 0 auto !important; padding-bottom: 90px; padding-top: 10px; 
-        position: relative; height: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg); 
-    }
-    .flashcard-controls { position: absolute; border-radius: 0 0 var(--radius) var(--radius); padding: 15px 30px; }
-    .fc-mobile-hint { display: none; }
-    .fc-pc-hint { display: block; }
-    .fc-nav-btn { width: 60px; height: 60px; font-size: 1.6rem; }
-    .word-modern { font-size: 2.6rem !important; }
-    .glass-word-card { padding: 25px 20px !important; gap: 15px !important; }
-    .btn-audio-modern { width: 50px !important; height: 50px !important; font-size: 1.4rem !important; }
-    .quiz-option-modern { padding: 10px 15px !important; }
-}
 
 /* =========================================
    9. DARK MODE SUPPORT

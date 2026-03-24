@@ -66,3 +66,11 @@ body.dark-theme .btn-notebook { background: var(--card-bg); border-color: var(--
 body.dark-theme .topic-card-modern { background: var(--card-bg); }
 body.dark-theme .topic-icon-large { background: #0f172a; }
 body.dark-theme .btn-action-view { background: #0f172a; border-color: #334155; color: var(--text-muted); }
+
+/* --- RESPONSIVE PC CHO THƯ VIỆN --- */
+@media (min-width: 1024px) {
+    .topic-grid { 
+        grid-template-columns: repeat(3, 1fr); /* Màn PC to cho hiển thị 3 thẻ ngang */
+        gap: 20px;
+    }
+}

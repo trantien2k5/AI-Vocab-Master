@@ -1,0 +1,131 @@
+/* =========================================
+   FILE QUẢN LÝ GIAO DIỆN PC TẬP TRUNG (RESPONSIVE)
+   ========================================= */
+
+/* 1. Chuyển quyền quản lý Ẩn/Hiện Tab cho CSS */
+.tab-content { display: none !important; }
+.tab-content.active { display: block !important; }
+
+/* =========================================
+   BẮT ĐẦU GIAO DIỆN PC (Màn hình > 768px)
+   ========================================= */
+@media (min-width: 768px) {
+    /* ==========================================
+       PHẦN 1: KHUNG XƯƠNG CỐT LÕI (SIDEBAR + MAIN) 
+       (Phần bị mất đã được thêm lại vào đây)
+       ========================================== */
+    .app-container {
+        max-width: 100%; width: 100%; height: 100vh;
+        border-radius: 0; box-shadow: none;
+        display: grid; grid-template-columns: 260px 1fr; 
+        grid-template-areas: "nav main"; 
+    }
+
+    .bottom-nav {
+        grid-area: nav; position: relative; 
+        width: 100%; height: 100%; border-radius: 0;
+        flex-direction: column; justify-content: flex-start; align-items: stretch;
+        padding: 40px 20px; border-right: 1px solid var(--border-color);
+        background: rgba(255,255,255,0.4); box-shadow: none; gap: 10px;
+    }
+    
+    .nav-item {
+        flex-direction: row; justify-content: flex-start; gap: 15px; 
+        padding: 15px 20px; border-radius: 16px; font-size: 1rem;
+        color: var(--text-main); font-weight: 600;
+    }
+    .nav-item i { font-size: 1.25rem; width: 24px; text-align: center; }
+    
+    .nav-item.active { background: white; box-shadow: var(--shadow-sm); color: var(--primary-color); }
+    .nav-item.active i { transform: none; } 
+
+    .add-btn-wrapper { width: 32px; height: 32px; border-radius: 10px; margin-bottom: 0; }
+    .add-btn-wrapper i { font-size: 1rem !important; } 
+
+    .content-area { 
+        grid-area: main;
+        max-width: 1000px !important; 
+        margin: 0 auto; 
+        padding: 40px 50px !important; 
+    }
+
+    /* Thanh cuộn chuột mượt mà */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+
+    /* ==========================================
+       PHẦN 2: CHIA CỘT CÁC TAB BÊN TRONG NỘI DUNG
+       ========================================== */
+       
+    /* TAB CÀI ĐẶT (SETTINGS) -> CHIA LƯỚI 2 CỘT */
+    #tab-settings.tab-content.active { 
+        display: grid !important; 
+        grid-template-columns: 1fr 1fr; 
+        gap: 0 25px; 
+        align-items: start; 
+    }
+    #tab-settings .settings-header, 
+    #tab-settings .app-version, 
+    #tab-settings .danger-zone-group { grid-column: 1 / -1; }
+    .settings-card { height: 100%; }
+
+    /* -------------------------------------- */
+    /* TAB ÔN TẬP (PRACTICE) -> ĐƯA VỀ CHÍNH GIỮA */
+    /* -------------------------------------- */
+    #tab-practice.tab-content.active { 
+        display: flex !important; 
+        flex-direction: column; 
+        min-height: 100%; 
+    }
+    
+    #practice-setup { max-width: 600px; margin: 0 auto; width: 100%; padding-top: 40px; }
+    
+    /* Gỡ bỏ Fixed toàn màn hình của Mobile, trả về dòng chảy bình thường */
+    #practice-workspace { 
+        position: relative !important; 
+        max-width: 100% !important; 
+        height: auto !important; 
+        min-height: 550px; /* Đảm bảo đủ chiều cao để lật thẻ */
+        padding-bottom: 20px !important; /* Xóa khoảng trống thừa của Mobile */
+        background: transparent !important; 
+        z-index: 1 !important;
+    }
+
+    /* Thu gọn Header (Thanh tiến độ) và Khu vực làm bài vào giữa màn hình */
+    .practice-header-modern, #practice-content-area { 
+        max-width: 650px !important; 
+        margin: 0 auto !important; 
+        width: 100%; 
+    }
+    .practice-header-modern { padding-top: 0; margin-bottom: 30px !important; padding-left: 0; padding-right: 0; }
+
+    /* Thẻ Flashcard */
+    .flashcard-inner { max-width: 100%; height: 400px; margin: 0 auto; }
+    
+    /* Gỡ bỏ trạng thái dính đáy (Fixed/Absolute) của thanh công cụ */
+    .flashcard-controls, .fixed-bottom-action { 
+        position: relative !important; 
+        bottom: auto !important; left: auto !important; transform: none !important; 
+        max-width: 650px; margin: 30px auto 0 !important; 
+        background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    }
+    
+    /* Chuyển hướng dẫn "Vuốt" (Mobile) sang phím tắt (PC) */
+    .fc-pc-hint { display: inline-block !important; }
+    .fc-mobile-hint { display: none !important; }
+
+    /* Màn hình kết quả (Hoàn thành) */
+    #practice-result { max-width: 600px; margin: 40px auto 0; width: 100%; }
+    
+    /* TAB KHÁM PHÁ (AI) -> GOM GỌN FORM NHẬP */
+    #tab-add.tab-content.active { max-width: 750px !important; margin: 0 auto; }
+    .advanced-ai-settings .settings-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    .advanced-ai-settings .form-group:last-child { grid-column: span 1 !important; }
+    #ai-mode-transcript textarea { min-height: 200px; }
+
+    /* TAB THƯ VIỆN (LIBRARY) -> LƯỚI 3 CỘT */
+    .topic-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 20px; }
+}

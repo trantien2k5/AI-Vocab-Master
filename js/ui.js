@@ -30,14 +30,14 @@ class UIManager {
                         // Đợi 200ms cho hiệu ứng mờ kết thúc rồi mới ẩn hoàn toàn
                         setTimeout(() => {
                             tab.classList.remove('active');
-                            tab.style.display = 'none';
+                            tab.style.display = '';
                         }, 200);
                     }
                 });
 
                 // 4. Hiển thị Tab mới
                 setTimeout(() => {
-                    targetTab.style.display = 'block';
+                    targetTab.style.display = '';
                     // Trigger reflow để animation chạy
                     void targetTab.offsetWidth;
                     targetTab.classList.add('active');
