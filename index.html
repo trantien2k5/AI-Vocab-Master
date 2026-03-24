@@ -291,13 +291,14 @@
 
                         <div id="mode-flashcard" style="display: none; width: 100%;">
                             <p class="quiz-subtitle-text">LẬT THẺ GHI NHỚ</p>
-                            <div class="flashcard-scene" onclick="flipCard()">
+                            
+                            <div class="flashcard-scene" onclick="flipCard()" style="cursor: pointer; touch-action: pan-x;">
                                 <div class="flashcard-inner" id="flashcard-element">
                                     <div class="flashcard-face flashcard-front">
                                         <span id="fc-icon" style="font-size: 4rem; margin-bottom: 15px;"></span>
                                         <h3 id="fc-word" style="font-size: 2.5rem; color: var(--text-main);">Word</h3>
                                         <p id="fc-phonetic" class="text-muted mt-10">/phonetic/</p>
-                                        <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Chạm để xem nghĩa</div>
+                                        <div class="flip-hint" style="color: var(--primary-color); font-weight: 700;"><i class="fas fa-hand-pointer"></i> Chạm thẻ để lật xem nghĩa</div>
                                     </div>
                                     <div class="flashcard-face flashcard-back">
                                         <h3 id="fc-meaning" style="font-size: 1.8rem; color: var(--primary-color); margin-bottom: 10px;">Nghĩa</h3>
@@ -306,9 +307,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 15px; margin-top: 20px;" id="fc-controls">
-                                <button class="btn btn-outline" onclick="markFlashcard(false)" style="color: var(--danger-color); border-color: var(--danger-color); background: rgba(239,68,68,0.05);">Chưa thuộc ❌</button>
-                                <button class="btn btn-primary" onclick="markFlashcard(true)" style="background: #10b981; border-color: #10b981; box-shadow: 0 8px 20px rgba(16,185,129,0.3);">Đã thuộc ✅</button>
+                            
+                            <div class="flashcard-controls" id="fc-controls">
+                                <button class="fc-nav-btn prev" onclick="prevFlashcard()">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                
+                                <div class="fc-hint">
+                                    <span class="fc-mobile-hint"><i class="fas fa-arrows-alt-v"></i> Vuốt dọc như TikTok</span>
+                                    <span class="fc-pc-hint"><kbd>←</kbd> <kbd>Space</kbd> <kbd>→</kbd></span>
+                                </div>
+                                
+                                <button class="fc-nav-btn next" onclick="nextFlashcard()">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
                             </div>
                         </div>
 

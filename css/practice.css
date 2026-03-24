@@ -185,3 +185,48 @@ body.dark-theme .result-body {
 }
 body.dark-theme .practice-result-card-modern.correct { border-top-color: #059669; }
 body.dark-theme .practice-result-card-modern.wrong { border-top-color: #dc2626; }
+
+/* =========================================
+   BẢNG ĐIỀU KHIỂN FLASHCARD (TỐI ƯU MOBILE & PC)
+   ========================================= */
+.flashcard-controls {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 25px; width: 100%; gap: 15px;
+    background: var(--card-bg); padding: 12px 20px; border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+
+/* Thiết kế nút bấm tối ưu cho Ngón cái (Thumb-friendly) */
+.fc-nav-btn {
+    width: 55px; height: 55px; border-radius: 18px; border: none; font-size: 1.4rem;
+    display: flex; justify-content: center; align-items: center; cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.fc-nav-btn.prev { background: var(--bg-color); color: var(--text-muted); border: 2px solid transparent; }
+.fc-nav-btn.prev:active { transform: scale(0.9) translateX(-5px); }
+.fc-nav-btn.next { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; box-shadow: 0 8px 20px rgba(99,102,241,0.3); }
+.fc-nav-btn.next:active { transform: scale(0.9) translateX(5px); box-shadow: 0 4px 10px rgba(99,102,241,0.2); }
+
+/* Text gợi ý thao tác ở giữa */
+.fc-hint { text-align: center; flex: 1; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
+.fc-pc-hint { display: none; }
+.fc-pc-hint kbd { 
+    background: var(--bg-color); border: 1px solid var(--border-color); 
+    padding: 4px 8px; border-radius: 8px; box-shadow: 0 2px 0 var(--border-color); 
+    font-family: monospace; color: var(--text-main); font-size: 0.9rem; margin: 0 3px; 
+}
+
+/* Tự động tối ưu giao diện trên PC */
+@media (min-width: 768px) {
+    .fc-mobile-hint { display: none; }
+    .fc-pc-hint { display: block; }
+    .flashcard-controls { padding: 15px 30px; margin-top: 35px; }
+    .fc-nav-btn { width: 60px; height: 60px; font-size: 1.6rem; }
+}
+
+/* Hỗ trợ Dark Mode */
+body.dark-theme .flashcard-controls { background: rgba(30, 41, 59, 0.7); border-color: var(--border-color); }
+body.dark-theme .fc-nav-btn.prev { background: #0f172a; border-color: #334155; }
+body.dark-theme .fc-pc-hint kbd { background: #0f172a; border-color: #334155; box-shadow: 0 2px 0 #334155; }

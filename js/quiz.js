@@ -8,6 +8,8 @@ class PracticeManager {
         this.score = 0;
         this.currentMode = 'quiz'; 
         this.pool = [];
+        this.fcPlaylist = []; // Danh sách lướt TikTok
+        this.fcIndex = 0;
         
         // Gamification Properties
         this.sessionLength = 10; 
@@ -106,15 +108,34 @@ class PracticeManager {
     }
 
     next() {
+        document.getElementById('btn-next-practice').style.display = 'none';
+        document.getElementById('quiz-explanation').style.display = 'none'; 
+
+        // NẾU LÀ FLASHCARD -> Tạo Playlist lướt vô tận, không tính điểm
+        if (this.currentMode === 'flashcard') {
+            const shuffle = (arr) => { for (let i = arr.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; };
+            this.fcPlaylist = shuffle([...this.pool]);
+            this.fcIndex = 0;
+            this.sessionLength = this.fcPlaylist.length;
+            this.currentQIndex = 1;
+            this.currentWord = this.fcPlaylist[this.fcIndex];
+            
+            this.updateProgressUI();
+            let safeIcon = this.currentWord.icon || '📝';
+            if (safeIcon.length > 8 || safeIcon.includes('<')) safeIcon = '📝';
+            this.setupFlashcardMode(safeIcon);
+            
+            const isAutoAudio = localStorage.getItem('vocabSettingAutoAudio') !== 'false';
+            if (isAutoAudio) setTimeout(() => AudioManager.speak(this.currentWord.word), 300);
+            return;
+        }
+
+        // CÁC MODE KHÁC -> Vẫn chạy theo SRS và có Game Over
         if (this.currentQIndex >= this.sessionLength) {
             return this.showResult();
         }
-
         this.currentQIndex++;
-        this.updateProgressUI();
-
-        document.getElementById('btn-next-practice').style.display = 'none';
-        document.getElementById('quiz-explanation').style.display = 'none'; 
+        this.updateProgressUI(); 
         
         // Đảm bảo không random trùng lại từ vừa làm nếu kho từ > 1
         let nextWord;
@@ -208,10 +229,44 @@ class PracticeManager {
         });
     }
 
-    /* --- MODE 2: LẬT THẺ (FLASHCARD) --- */
+    /* --- MODE 2: LẬT THẺ (FLASHCARD TIKTOK) --- */
+    navigateFlashcard(direction) {
+        const fcInner = document.querySelector('.flashcard-inner');
+        // Hiệu ứng mờ và đẩy thẻ hiện tại ra khỏi màn hình
+        fcInner.style.transform = direction > 0 ? 'translateY(-100px) scale(0.9)' : 'translateY(100px) scale(0.9)';
+        fcInner.style.opacity = '0';
+
+        setTimeout(() => {
+            this.fcIndex += direction;
+            if (this.fcIndex >= this.fcPlaylist.length) this.fcIndex = 0; // Vuốt vô tận
+            if (this.fcIndex < 0) this.fcIndex = this.fcPlaylist.length - 1;
+
+            this.currentWord = this.fcPlaylist[this.fcIndex];
+            this.currentQIndex = this.fcIndex + 1;
+            this.updateProgressUI();
+            
+            let safeIcon = this.currentWord.icon || '📝';
+            if (safeIcon.length > 8 || safeIcon.includes('<')) safeIcon = '📝';
+            this.setupFlashcardMode(safeIcon);
+
+            // Nạp thẻ mới từ phía đối diện bay vào
+            fcInner.style.transition = 'none';
+            fcInner.style.transform = direction > 0 ? 'translateY(100px) scale(0.9)' : 'translateY(-100px) scale(0.9)';
+            
+            setTimeout(() => {
+                fcInner.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease';
+                fcInner.style.transform = 'translateY(0) scale(1)';
+                fcInner.style.opacity = '1';
+                
+                const isAutoAudio = localStorage.getItem('vocabSettingAutoAudio') !== 'false';
+                if (isAutoAudio) AudioManager.speak(this.currentWord.word);
+            }, 50);
+        }, 200);
+    }
+
     setupFlashcardMode(safeIcon) {
         document.querySelector('.flashcard-scene').classList.remove('is-flipped');
-        document.getElementById('fc-controls').style.display = 'none'; 
+        document.getElementById('fc-controls').style.display = 'flex'; // Luôn hiện nút điều hướng
         document.getElementById('fc-icon').innerText = safeIcon;
         document.getElementById('fc-word').innerText = this.currentWord.word;
         document.getElementById('fc-phonetic').innerText = this.currentWord.phonetic || '';
@@ -222,7 +277,6 @@ class PracticeManager {
 
     flipCard() {
         document.querySelector('.flashcard-scene').classList.toggle('is-flipped');
-        document.getElementById('fc-controls').style.display = 'flex'; 
         const isAutoAudio = localStorage.getItem('vocabSettingAutoAudio') !== 'false';
         if (isAutoAudio) AudioManager.speak(this.currentWord.word);
     }

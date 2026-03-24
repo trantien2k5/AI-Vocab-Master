@@ -68,10 +68,35 @@ class VocabApp {
         window.speakQuizWord = () => AudioManager.speak(QuizSystem.currentWord.word);
         window.speakWord = (word) => AudioManager.speak(word);
 
-        // Nút lật Flashcard & Gõ từ
+        // Điều khiển Flashcard (Lật, Lướt, Gõ từ)
         window.flipCard = () => QuizSystem.flipCard();
-        window.markFlashcard = (isCorrect) => QuizSystem.handleResult(null, isCorrect);
+        window.nextFlashcard = () => QuizSystem.navigateFlashcard(1);
+        window.prevFlashcard = () => QuizSystem.navigateFlashcard(-1);
         window.checkTyping = (inputId) => QuizSystem.checkTyping(inputId);
+
+        // GẮN CẢM BIẾN LƯỚT TIKTOK (SWIPE) VÀ BÀN PHÍM (PC)
+        let touchstartY = 0;
+        const workspace = document.getElementById('practice-workspace');
+        
+        workspace.addEventListener('touchstart', e => { 
+            if(document.getElementById('mode-flashcard').style.display !== 'none') touchstartY = e.changedTouches[0].screenY; 
+        }, {passive: true});
+        
+        workspace.addEventListener('touchend', e => {
+            if(document.getElementById('mode-flashcard').style.display !== 'none') {
+                const touchendY = e.changedTouches[0].screenY;
+                if (touchendY < touchstartY - 40) window.nextFlashcard(); // Vuốt Lên -> Trượt tiếp
+                if (touchendY > touchstartY + 40) window.prevFlashcard(); // Vuốt Xuống -> Lùi lại
+            }
+        }, {passive: true});
+
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('mode-flashcard').style.display !== 'none') {
+                if (e.code === 'Space') { e.preventDefault(); window.flipCard(); }
+                if (e.code === 'ArrowDown' || e.code === 'ArrowRight') { e.preventDefault(); window.nextFlashcard(); }
+                if (e.code === 'ArrowUp' || e.code === 'ArrowLeft') { e.preventDefault(); window.prevFlashcard(); }
+            }
+        });
 
         // --- QUẢN LÝ DỮ LIỆU ---
         window.exportData = () => {
