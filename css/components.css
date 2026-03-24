@@ -1,20 +1,26 @@
-/* UI COMPONENTS - BẢN PREMIUM */
+/* =========================================
+   UI COMPONENTS - BẢN PREMIUM REFACTORED
+   ========================================= */
 
+/* 1. Kẻ chứa nội dung (Card) */
 .card {
     background: var(--card-bg); 
     border-radius: var(--radius); 
     padding: 22px; margin-bottom: 18px;
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); /* Kính mờ xịn */
-    border: 1px solid rgba(255, 255, 255, 0.9); /* Viền sáng tạo cảm giác kính nổi */
-    box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Bóng đổ 2 lớp có màu */
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.9); 
+    box-shadow: var(--shadow-md), var(--shadow-sm);
+    transition: var(--trans-bounce), box-shadow 0.3s ease;
 
     h2 { font-size: 1.15rem; margin-bottom: 8px; font-weight: 700; letter-spacing: -0.3px; }
+    
     &.card-danger { border-left: 4px solid var(--danger-color); }
-    &:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.25); }
+    &:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
 }
+
 .desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px; line-height: 1.6; }
 
+/* 2. Biểu mẫu & Input (Forms) */
 .form-group {
     margin-bottom: 15px;
     label { display: block; font-size: 0.85rem; margin-bottom: 6px; font-weight: 600; color: var(--text-main); }
@@ -22,13 +28,13 @@
 
 input[type="text"], input[type="number"], textarea, select {
     width: 100%; padding: 12px 14px; font-size: 0.95rem; font-weight: 500;
-    background: rgba(255, 255, 255, 0.9); outline: none; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.9); outline: none; 
     border: 2px solid transparent; border-radius: var(--radius-sm); 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02) inset, 0 1px 0 rgba(255,255,255,0.8);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.02), 0 1px 0 rgba(255,255,255,0.8);
+    transition: var(--trans-smooth);
     
     &:focus { 
-        background: #fff;
-        border-color: var(--primary-light); 
+        background: #fff; border-color: var(--primary-light); 
         box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15); 
         transform: translateY(-1px);
     }
@@ -36,54 +42,71 @@ input[type="text"], input[type="number"], textarea, select {
 textarea { resize: none; }
 .form-control-sm { font-size: 0.85rem; padding: 6px 10px; width: auto; }
 
+/* 3. Nút bấm (Buttons) */
 .btn {
     width: 100%; padding: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; 
     border-radius: var(--radius-sm); border: none; letter-spacing: 0.3px;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* Hiệu ứng nảy iOS */
-    transform: scale(1);
+    transition: var(--trans-bounce); transform: scale(1);
 
     &.btn-primary { 
         background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); 
-        color: white; 
+        color: white; border: 1px solid rgba(255,255,255,0.1);
         box-shadow: 0 6px 15px -3px rgba(99, 102, 241, 0.4);
-        border: 1px solid rgba(255,255,255,0.1);
         &:active { transform: scale(0.96); box-shadow: 0 2px 5px -1px rgba(99, 102, 241, 0.5); } 
     }
+    
     &.btn-outline { 
         background: transparent; border: 2px solid var(--primary-light); color: var(--primary-color); 
         &:hover { background: var(--primary-light); }
         &:active { transform: scale(0.96); } 
     }
+    
     &.btn-danger { 
         background: linear-gradient(135deg, #ef4444, #dc2626); color: white; 
         box-shadow: 0 6px 15px -3px rgba(239, 68, 68, 0.4);
         &:active { transform: scale(0.96); } 
     }
+    
     &.btn-sm { padding: 8px 14px; font-size: 0.85rem; }
-    &:disabled { opacity: 0.6; cursor: not-allowed; background: var(--border-color) !important; color: var(--text-muted) !important; box-shadow: none !important; transform: none !important; }
+    
+    &:disabled { 
+        opacity: 0.6; cursor: not-allowed; transform: none !important;
+        background: var(--border-color) !important; color: var(--text-muted) !important; box-shadow: none !important; 
+    }
 }
 
-/* Nút gạt Switch xịn xò */
+/* 4. Nút gạt Switch (iOS Style) */
 .switch {
     position: relative; display: inline-block; width: 48px; height: 26px;
+    
     input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 26px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-    .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    
+    .slider { 
+        position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
+        background-color: #cbd5e1; border-radius: 26px; 
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); transition: var(--trans-smooth); 
+    }
+    
+    .slider:before { 
+        position: absolute; content: ""; height: 20px; width: 20px; 
+        left: 3px; bottom: 3px; background-color: white; border-radius: 50%; 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: var(--trans-bounce); 
+    }
+    
     input:checked + .slider { background-color: var(--primary-color); }
     input:checked + .slider:before { transform: translateX(22px); }
 }
 
-/* Toast Notification lơ lửng giữa không trung */
+/* 5. Thông báo nổi (Toasts) */
 #toast-container {
     position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); z-index: 1000;
     width: auto; max-width: 90%; display: flex; flex-direction: column; gap: 10px;
 
     .toast {
-        background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px);
-        color: white; padding: 12px 20px; border-radius: 30px;
-        font-size: 0.9rem; font-weight: 600; text-align: center; 
+        background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); color: white; 
+        padding: 12px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; text-align: center; 
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.1);
-        opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        opacity: 0; transform: translateY(20px) scale(0.95); transition: var(--trans-bounce);
 
         &.show { opacity: 1; transform: translateY(0) scale(1); }
         &.success { background-color: rgba(16, 185, 129, 0.95); }
@@ -91,4 +114,7 @@ textarea { resize: none; }
         &.warning { background-color: rgba(245, 158, 11, 0.95); }
     }
 }
-@media (min-width: 768px) { #toast-container { bottom: 30px; right: 30px; left: auto; transform: none; align-items: flex-end; } }
+
+@media (min-width: 768px) { 
+    #toast-container { bottom: 30px; right: 30px; left: auto; transform: none; align-items: flex-end; } 
+}

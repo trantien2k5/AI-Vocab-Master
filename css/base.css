@@ -1,143 +1,188 @@
+/* =========================================
+   1. GLOBAL VARIABLES (CHUẨN HÓA HỆ THỐNG)
+   ========================================= */
 :root {
-    /* Hệ màu Premium (Vibrant Indigo & Soft Pastel) */
+    /* Màu sắc (Colors) */
     --primary-color: #6366f1; 
     --primary-hover: #4f46e5; 
     --primary-light: #e0e7ff;
     --text-main: #0f172a; 
     --text-muted: #64748b;
     --bg-color: #f8fafc; 
-    --card-bg: rgba(255, 255, 255, 0.85); /* Trong suốt nhẹ để ăn nền gradient */
+    --card-bg: rgba(255, 255, 255, 0.85);
     --nav-bg: rgba(255, 255, 255, 0.75);
     --border-color: rgba(226, 232, 240, 0.8); 
     --danger-color: #ef4444;
-    --radius: 24px; /* Bo góc to hơn, mềm mại hơn */
+
+    /* Kích thước & Bo góc (Sizing) */
+    --radius: 24px;
     --radius-sm: 12px;
+    --max-width: 480px;
+
+    /* Đổ bóng chuẩn (Shadows - DRY Rule) */
+    --shadow-sm: 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
+    --shadow-lg: 0 20px 40px -15px rgba(99, 102, 241, 0.25);
+    --shadow-float: 0 8px 20px rgba(99, 102, 241, 0.3);
+
+    /* Hiệu ứng chuyển động (Transitions - DRY Rule) */
+    --trans-smooth: all 0.2s ease;
+    --trans-bounce: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+/* =========================================
+   2. RESET & BẢO VỆ GIAO DIỆN
+   ========================================= */
+* { 
+    box-sizing: border-box; margin: 0; padding: 0; 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    -webkit-tap-highlight-color: transparent; 
+}
 
-/* --- FIX LỖI DÍNH BÔI ĐEN KHI CLICK NHANH --- */
+/* Khóa bôi đen xanh lè khi click nhanh */
 h1, h2, h3, h4, h5, h6, button, .nav-item, label, summary, .stat-box, .mode-card, .action-card-home, .topic-card-header {
-    -webkit-user-select: none; /* Safari, Chrome, iOS */
-    -moz-user-select: none;    /* Firefox */
-    -ms-user-select: none;     /* Edge, IE */
-    user-select: none;         /* Chuẩn chung */
+    user-select: none; -webkit-user-select: none;
 }
 
-/* Mở khóa bôi đen cho các nội dung Từ vựng để User có thể copy bài */
+/* Mở khóa cho text cần copy */
 .word-modern, #fc-word, #fc-meaning, .modal-word-text, .opt-text, #prompt-output, #json-input {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
+    user-select: text; -webkit-user-select: text;
 }
 
+/* =========================================
+   3. LAYOUT CHÍNH (MOBILE FIRST - LOCKED NATIVE)
+   ========================================= */
 body { 
-    /* Nền Gradient mượt mà sang chảnh */
     background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-    background-attachment: fixed;
     color: var(--text-main); 
     display: flex; justify-content: center; 
-    min-height: 100vh; min-height: 100dvh; /* FIX: Tự co giãn theo thanh trình duyệt */
-    transition: background 0.4s ease, color 0.4s ease; 
+    
+    /* FIX CHÍNH: Khóa cứng toàn bộ màn hình, không cho cuộn trang web */
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    overflow: hidden;
+    transition: var(--trans-smooth); 
 }
+
 .app-container {
-    width: 100%; max-width: 480px; 
-    height: 100vh; height: 100dvh; /* FIX: Tự co giãn theo thanh trình duyệt */
-    background-color: var(--bg-color); position: relative;
-    display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    width: 100%; max-width: var(--max-width); 
+    height: 100%; /* Vừa khít với Body đã khóa ở trên */
+    background-color: var(--bg-color); 
+    position: relative;
+    display: flex; flex-direction: column; 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
 .app-header {
-    background: var(--nav-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    padding: 15px 20px; text-align: center; border-bottom: 1px solid var(--border-color);
-    position: sticky; top: 0; z-index: 100; transition: background-color 0.3s ease, border-color 0.3s ease;
+    background: var(--nav-bg); 
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    padding: 15px 20px; text-align: center; 
+    border-bottom: 1px solid var(--border-color);
+    z-index: 100; flex-shrink: 0; /* Không cho header bị bóp méo */
+    transition: var(--trans-smooth);
     
     h1 { font-size: 1.15rem; font-weight: 600; }
 }
 
-/* Layout Content */
-.content-area { flex: 1; overflow-y: auto; padding: 20px 15px; padding-bottom: 120px; }
+.content-area { 
+    flex: 1; 
+    overflow-y: auto; /* CHỈ CHO PHÉP CUỘN Ở KHU VỰC NỘI DUNG NÀY */
+    -webkit-overflow-scrolling: touch; /* Giúp vuốt mượt mà trên iPhone */
+    padding: 20px 15px 20px 15px; /* Đã xóa padding khổng lồ ở đáy */
+}
 
-/* Thanh Nav Mobile (Tối giản, bám đáy chuẩn App) */
+/* =========================================
+   4. NAVIGATION (THANH ĐIỀU HƯỚNG BÁM ĐÁY CHUẨN)
+   ========================================= */
 .bottom-nav {
-    position: fixed; /* FIX: Đổi từ absolute sang fixed để bám chắc vào màn hình */
-    bottom: 0; left: 0; width: 100%; 
-    background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    /* Đổi thành relative/flex-item để nó tự động bị đẩy xuống sát đáy Container */
+    position: relative; width: 100%; flex-shrink: 0;
+    background: var(--nav-bg); 
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     display: flex; justify-content: space-around; align-items: center;
-    padding: 10px 5px calc(15px + env(safe-area-inset-bottom)) 5px; /* FIX: Né thanh trình duyệt và thanh Home OS */
+    padding: 10px 5px calc(15px + env(safe-area-inset-bottom)) 5px; 
     border-radius: 16px 16px 0 0; 
     border-top: 1px solid var(--border-color); 
     box-shadow: 0 -4px 20px rgba(0,0,0,0.04); 
-    z-index: 1000; /* Nâng quyền ưu tiên hiển thị cao nhất */
+    z-index: 1000;
 }
 
 .nav-item {
     background: none; border: none; color: var(--text-muted); cursor: pointer;
-    display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; gap: 4px;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-size: 0.7rem; transition: var(--trans-bounce);
     
     i { font-size: 1.25rem; transition: transform 0.3s; }
-    &.active { color: var(--primary-color); font-weight: 700; i { transform: translateY(-3px); } }
+    
+    &.active { 
+        color: var(--primary-color); font-weight: 700; 
+        i { transform: translateY(-3px); } 
+    }
 }
 
-/* Nút Add thiết kế đặc biệt */
 .add-btn-wrapper {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
     color: white; width: 45px; height: 45px; border-radius: 20px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); margin-bottom: 2px;
+    box-shadow: var(--shadow-float); margin-bottom: 2px;
     transition: transform 0.2s;
+    
     i { font-size: 1.3rem !important; }
 }
 .nav-item.action-btn:active .add-btn-wrapper { transform: scale(0.9); }
 
-/* Hiệu ứng chuyển Tab Mượt Mà */
-.tab-content { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.3s ease, transform 0.3s ease; }
+/* =========================================
+   5. UTILITIES (CLASS DÙNG CHUNG)
+   ========================================= */
+.tab-content { 
+    display: none; opacity: 0; transform: translateY(15px); 
+    transition: var(--trans-smooth); 
+}
 .tab-content.active { display: block; opacity: 1; transform: translateY(0); }
-
-/* Class tiện ích */
-.mt-10 { margin-top: 10px; } .mt-15 { margin-top: 15px; } .mt-20 { margin-top: 20px; } .text-center { text-align: center; }
+.mt-10 { margin-top: 10px; } 
+.mt-15 { margin-top: 15px; } 
+.mt-20 { margin-top: 20px; } 
+.text-center { text-align: center; }
 
 /* =========================================
-   GIAO DIỆN DESKTOP (FULL SCREEN TRÀN VIỀN)
+   6. RESPONSIVE DESKTOP (PC)
    ========================================= */
 @media (min-width: 768px) {
     .app-container {
-        max-width: 100%; width: 100%; margin: 0; height: 100vh;
-        border-radius: 0; overflow: hidden;
-        display: grid; 
-        grid-template-columns: 260px 1fr; /* Thanh menu bên trái 260px */
+        max-width: 100%; width: 100%; height: 100vh;
+        border-radius: 0; box-shadow: none;
+        display: grid; grid-template-columns: 260px 1fr; 
         grid-template-areas: "nav main"; 
-        box-shadow: none; /* Bỏ bóng đổ viền ngoài */
     }
 
-    /* Thanh Nav dính chặt vào mép trái */
     .bottom-nav {
-        grid-area: nav; 
-        position: relative; width: 100%; height: 100%; border-radius: 0;
+        grid-area: nav; position: relative; 
+        width: 100%; height: 100%; border-radius: 0;
         flex-direction: column; justify-content: flex-start; align-items: stretch;
-        padding: 40px 20px; box-shadow: none; border-right: 1px solid var(--border-color);
-        background: rgba(255,255,255,0.4); gap: 10px;
-        left: 0; bottom: 0; 
+        padding: 40px 20px; border-right: 1px solid var(--border-color);
+        background: rgba(255,255,255,0.4); box-shadow: none; gap: 10px;
     }
     
     .nav-item {
-        flex-direction: row; padding: 15px 20px; border-radius: 16px; font-size: 1rem;
-        justify-content: flex-start; gap: 15px; color: var(--text-main); font-weight: 600;
+        flex-direction: row; justify-content: flex-start; gap: 15px; 
+        padding: 15px 20px; border-radius: 16px; font-size: 1rem;
+        color: var(--text-main); font-weight: 600;
         
         i { font-size: 1.25rem; width: 24px; text-align: center; }
-        &.active { background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: var(--primary-color); i { transform: none; } }
+        
+        &.active { 
+            background: white; box-shadow: var(--shadow-sm); 
+            color: var(--primary-color); 
+            i { transform: none; } 
+        }
     }
 
-    .add-btn-wrapper { width: 32px; height: 32px; border-radius: 10px; margin-bottom: 0; i { font-size: 1rem !important; } }
+    .add-btn-wrapper { 
+        width: 32px; height: 32px; border-radius: 10px; margin-bottom: 0; 
+        i { font-size: 1rem !important; } 
+    }
     
-    /* Vùng nội dung tràn khung bên phải, nhưng căn giữa cho dễ đọc */
     .content-area { 
-        grid-area: main; 
-        padding: 40px; 
-        max-width: 900px; /* Giữ chữ không bị kéo dài thòng lòng trên màn hình quá to */
-        margin: 0 auto; 
-        width: 100%;
+        grid-area: main; max-width: 900px; margin: 0 auto; padding: 40px; 
     }
 }

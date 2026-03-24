@@ -260,6 +260,14 @@ class PracticeManager {
                 
                 const isAutoAudio = localStorage.getItem('vocabSettingAutoAudio') !== 'false';
                 if (isAutoAudio) AudioManager.speak(this.currentWord.word);
+
+                // FIX LỖI KẸT THẺ: Dọn dẹp Inline Style sau khi animation bay vào kết thúc (400ms)
+                // Để nhường lại quyền điều khiển transform (xoay 180 độ) cho CSS Class
+                setTimeout(() => {
+                    fcInner.style.transform = '';
+                    fcInner.style.transition = '';
+                }, 400);
+
             }, 50);
         }, 200);
     }

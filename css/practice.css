@@ -1,92 +1,248 @@
 /* =========================================
-   ĐẤU TRƯỜNG TỪ VỰNG (PRACTICE)
+   1. WORKSPACE LUYỆN TẬP (LOCKED NATIVE)
    ========================================= */
+#practice-workspace {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%; /* Dùng 100% vì body đã được khóa cứng */
+    display: flex; flex-direction: column; align-items: center;
+    background: var(--bg-color); z-index: 2000; /* Nâng cao lên để che toàn bộ Web */
+    overflow: hidden; padding-bottom: calc(90px + env(safe-area-inset-bottom));
+}
+#practice-setup { padding-top: 10px; }
 
-/* Setup Screen */
+/* =========================================
+   2. HEADER & GAMIFICATION PROGRESS
+   ========================================= */
+.practice-header-modern { 
+    display: flex; justify-content: space-between; align-items: center; 
+    margin-bottom: 25px; width: 100%; gap: 15px; padding: 15px 20px 0;
+}
+.btn-close-modern { 
+    background: transparent; border: none; color: var(--text-muted); 
+    font-size: 1.5rem; cursor: pointer; transition: var(--trans-smooth); padding: 5px; 
+}
+.btn-close-modern:active { transform: scale(0.8); }
+
+.session-progress-container {
+    flex: 1; height: 12px; background: var(--border-color); 
+    border-radius: var(--radius-sm); overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+.session-progress-bar {
+    height: 100%; width: 0%; 
+    background: linear-gradient(90deg, #3b82f6, #10b981);
+    border-radius: var(--radius-sm); transition: var(--trans-bounce);
+}
+
+.streak-badge { 
+    background: linear-gradient(135deg, #fef08a, #fde047); color: #ca8a04; 
+    padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 1rem; 
+    display: flex; align-items: center; gap: 6px; 
+    box-shadow: 0 4px 10px rgba(250, 204, 21, 0.3); border: 1px solid #fde047; 
+}
+.streak-badge i { color: #ea580c; }
+.streak-badge span { font-variant-numeric: tabular-nums; } /* Chống giật khung khi số nhảy */
+
+/* =========================================
+   3. SETUP SCREEN (CHỌN CHẾ ĐỘ)
+   ========================================= */
 .practice-modes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-.mode-card { cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.mode-card { cursor: pointer; transition: var(--trans-bounce); }
 .mode-card:hover { transform: translateY(-4px); }
 .mode-card:active { transform: translateY(0) scale(0.96); }
-.mode-card:hover .mode-content { border-color: var(--primary-color) !important; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.25) !important; }
+.mode-card:hover .mode-content { border-color: var(--primary-color); box-shadow: var(--shadow-lg); }
 
-.mode-content { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 15px 5px; background: var(--bg-color); border: 2px solid var(--border-color); border-radius: 16px; transition: 0.2s; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-align: center; }
+.mode-content { 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    gap: 8px; padding: 15px 5px; background: var(--bg-color); 
+    border: 2px solid var(--border-color); border-radius: 16px; 
+    transition: var(--trans-smooth); font-size: 0.8rem; font-weight: 600; 
+    color: var(--text-muted); text-align: center; 
+}
 .mode-content i { font-size: 1.5rem; }
 
-/* Workspace Header */
-.practice-header-modern { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%; }
-.btn-close-modern { background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; transition: 0.2s; padding: 5px; }
-.btn-close-modern:active { transform: scale(0.8); }
-.practice-title-modern { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin: 0; position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; }
-.streak-badge { background: linear-gradient(135deg, #fef08a, #fde047); color: #ca8a04; padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 1rem; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(250, 204, 21, 0.3); border: 1px solid #fde047; }
-.streak-badge i { color: #ea580c; }
+/* =========================================
+   4. CHẾ ĐỘ TRẮC NGHIỆM (QUIZ)
+   ========================================= */
+.quiz-subtitle-text { 
+    font-size: 0.8rem; font-weight: 700; color: var(--text-muted); 
+    letter-spacing: 1.5px; text-transform: uppercase; 
+    margin-bottom: 15px; text-align: center; 
+}
 
-/* Trắc nghiệm Layout */
-.quiz-subtitle-text { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 15px; text-align: center; }
+/* Glassmorphism Card (Dùng chung) */
+.glass-word-card, .glass-explanation { 
+    background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
+    border: 1px solid rgba(255, 255, 255, 0.9); border-radius: var(--radius); 
+    padding: 35px 20px; width: 100%; text-align: center; margin-bottom: 25px; 
+    box-shadow: var(--shadow-md), inset 0 2px 4px rgba(255, 255, 255, 0.6); 
+}
+.glass-explanation { padding: 25px 20px; animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.glass-explanation.wrong-exp { border: 2px solid rgba(239, 68, 68, 0.3); background: rgba(254, 242, 242, 0.8); }
 
-/* Word Card Glassmorphism */
-.glass-word-card { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; padding: 35px 20px; width: 100%; text-align: center; margin-bottom: 25px; box-shadow: 0 15px 35px -5px rgba(99, 102, 241, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.6); }
 .word-modern { font-size: 2.8rem; color: var(--text-main); font-weight: 900; letter-spacing: -1px; word-break: break-word; margin: 0; line-height: 1.2; text-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 .phonetic-modern { font-size: 1.1rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; }
-.btn-audio-modern { background: var(--primary-color); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4); }
+
+.btn-audio-modern { 
+    background: var(--primary-color); color: white; border: none; 
+    width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; 
+    cursor: pointer; display: flex; align-items: center; justify-content: center; 
+    transition: var(--trans-smooth); box-shadow: var(--shadow-sm); 
+}
 .btn-audio-modern:active { transform: scale(0.9); }
 
-/* Nút Đáp án ABCD (Premium) */
+/* Đáp án ABCD */
 .quiz-options-modern { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; }
-.quiz-option-modern { display: flex; align-items: center; gap: 15px; background: var(--card-bg); border: 2px solid transparent; padding: 15px 20px; border-radius: 20px; font-size: 1.05rem; font-weight: 600; text-align: left; cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.04); }
-.quiz-option-modern .opt-label { background: var(--bg-color); color: var(--text-muted); width: 36px; height: 36px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 1rem; font-weight: 800; transition: 0.2s; flex-shrink: 0; border: 1px solid var(--border-color); }
-.quiz-option-modern:hover { transform: translateY(-2px); border-color: var(--border-color); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+.quiz-option-modern { 
+    display: flex; align-items: center; gap: 15px; background: var(--card-bg); 
+    border: 2px solid transparent; padding: 15px 20px; border-radius: 20px; 
+    font-size: 1.05rem; font-weight: 600; text-align: left; cursor: pointer; 
+    transition: var(--trans-bounce); color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.04); 
+}
+.quiz-option-modern .opt-label { 
+    background: var(--bg-color); color: var(--text-muted); width: 36px; height: 36px; 
+    border-radius: var(--radius-sm); display: flex; justify-content: center; align-items: center; 
+    font-size: 1rem; font-weight: 800; transition: var(--trans-smooth); 
+    flex-shrink: 0; border: 1px solid var(--border-color); 
+}
+.quiz-option-modern:hover { transform: translateY(-2px); border-color: var(--border-color); box-shadow: var(--shadow-float); }
 .quiz-option-modern:active { transform: scale(0.98); }
 
-/* Trạng thái Đúng / Sai */
+/* Màu đúng/sai */
 .quiz-option-modern.correct-ans { background: #d1fae5; border-color: #10b981; color: #065f46; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2); }
 .quiz-option-modern.correct-ans .opt-label { background: #10b981; color: white; border-color: #10b981; }
 .quiz-option-modern.wrong-ans { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
 .quiz-option-modern.wrong-ans .opt-label { background: #ef4444; color: white; border-color: #ef4444; }
 
-/* Bảng Giải Thích Glassmorphism */
-.glass-explanation { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; padding: 25px 20px; width: 100%; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.6); animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-.glass-explanation.wrong-exp { border: 2px solid rgba(239, 68, 68, 0.3); background: rgba(254, 242, 242, 0.8); }
-
-/* Nút Tiếp tục ghim đáy */
-.fixed-bottom-action { position: absolute; bottom: 0; left: 0; width: 100%; padding-top: 15px; background: transparent; display: flex; justify-content: center; }
-.btn-next-modern { width: 100%; background: #10b981; color: white; border: none; border-radius: 24px; padding: 18px; font-size: 1.2rem; font-weight: 800; letter-spacing: 1px; cursor: pointer; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4); transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+/* Nút Tiếp Tục Cố Định Đáy */
+.fixed-bottom-action { position: absolute; bottom: 0; left: 0; width: 100%; padding-top: 15px; display: flex; justify-content: center; }
+.btn-next-modern { 
+    width: 100%; background: #10b981; color: white; border: none; 
+    border-radius: var(--radius); padding: 18px; font-size: 1.2rem; 
+    font-weight: 800; letter-spacing: 1px; cursor: pointer; 
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4); transition: var(--trans-smooth); 
+    display: flex; align-items: center; justify-content: center; 
+}
 .btn-next-modern:active { transform: scale(0.96); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3); }
 .btn-next-modern:disabled { background: var(--text-muted); box-shadow: none; cursor: not-allowed; transform: none; }
 
-/* --- FLASHCARD 3D --- */
-.flashcard-scene { perspective: 1000px; width: 100%; height: 320px; }
-.flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+/* =========================================
+   5. CHẾ ĐỘ LẬT THẺ (FLASHCARD TIKTOK)
+   ========================================= */
+.flashcard-scene { 
+    flex-grow: 1; width: 100%; display: flex; justify-content: center; align-items: center;
+    overflow: hidden; perspective: 1000px; 
+}
+.flashcard-inner { 
+    width: 88%; height: 85%; max-height: 480px; position: relative; text-align: center; 
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; 
+    box-shadow: 0 15px 50px rgba(0,0,0,0.1); border-radius: var(--radius);
+}
 .flashcard-scene.is-flipped .flashcard-inner { transform: rotateY(180deg); }
-.flashcard-face { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--card-bg); border-radius: 24px; border: 2px solid rgba(255, 255, 255, 0.8); box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2); padding: 25px; }
+.flashcard-face { 
+    position: absolute; width: 100%; height: 100%; 
+    -webkit-backface-visibility: hidden; backface-visibility: hidden; 
+    display: flex; flex-direction: column; justify-content: center; align-items: center; 
+    background: var(--card-bg); border-radius: var(--radius); 
+    border: 2px solid rgba(255, 255, 255, 0.8); padding: 30px 20px; 
+}
 .flashcard-back { transform: rotateY(180deg); background: var(--primary-light); border-color: var(--primary-color); }
-.flip-hint { position: absolute; bottom: 20px; font-size: 0.8rem; color: var(--text-muted); opacity: 0.6; animation: pulse 2s infinite; }
+
+.card-label { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+#fc-word { font-size: 3rem !important; margin-bottom: 5px !important; }
+#fc-meaning { font-size: 2.2rem !important; margin-top: 10px !important; font-weight: 800; color: var(--primary-color); }
+#fc-type { margin-bottom: 25px !important; font-size: 0.9rem; font-weight: bold; color: var(--text-muted); }
+#fc-example { flex-grow: 1; display: flex; align-items: center; justify-content: center; text-align: left; background: rgba(0,0,0,0.02); border-left: 3px solid var(--primary-color); padding: 15px; border-radius: var(--radius-sm); font-style: italic; font-size: 0.95rem; width: 100%; }
+
+.flip-hint { position: absolute; bottom: 20px; font-size: 0.8rem; color: var(--primary-color); font-weight: 700; opacity: 0.6; animation: pulse 2s infinite; }
 @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-/* --- TYPING / DICTATION --- */
-.mode-typing-card { padding: 40px 20px !important; border-radius: 28px !important; background: var(--card-bg) !important; border: 1px solid rgba(255,255,255,0.8) !important; box-shadow: 0 15px 35px -5px rgba(0,0,0,0.08) !important; }
-.typing-input { font-size: 1.4rem !important; text-align: center; padding: 18px !important; font-weight: 800 !important; letter-spacing: 1px; border-radius: 16px !important; background: var(--bg-color) !important; border: 2px solid transparent !important; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+/* Bảng điều khiển Flashcard */
+.flashcard-controls {
+    position: fixed; bottom: 0; left: 0; width: 100%; gap: 15px;
+    background: var(--card-bg); padding: 15px 25px calc(15px + env(safe-area-inset-bottom)); 
+    border-top: 1px solid var(--border-color); box-shadow: 0 -10px 25px rgba(0,0,0,0.05); 
+    z-index: 110; display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+.fc-nav-btn {
+    width: 55px; height: 55px; border-radius: 18px; border: none; font-size: 1.4rem;
+    display: flex; justify-content: center; align-items: center; cursor: pointer;
+    transition: var(--trans-bounce);
+}
+.fc-nav-btn.prev { background: var(--bg-color); color: var(--text-muted); border: 2px solid transparent; }
+.fc-nav-btn.prev:active { transform: scale(0.9) translateX(-5px); }
+.fc-nav-btn.next { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; box-shadow: var(--shadow-float); }
+.fc-nav-btn.next:active { transform: scale(0.9) translateX(5px); box-shadow: var(--shadow-sm); }
+.fc-hint { text-align: center; flex: 1; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
+.fc-pc-hint { display: none; }
+.fc-pc-hint kbd { background: var(--bg-color); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 8px; box-shadow: 0 2px 0 var(--border-color); font-family: monospace; color: var(--text-main); font-size: 0.9rem; margin: 0 3px; }
+
+/* =========================================
+   6. CHẾ ĐỘ GÕ TỪ & DICTATION
+   ========================================= */
+.mode-typing-card { padding: 40px 20px !important; border-radius: 28px !important; background: var(--card-bg) !important; border: 1px solid rgba(255,255,255,0.8) !important; box-shadow: var(--shadow-md) !important; }
+.typing-input { 
+    font-size: 1.4rem !important; text-align: center; padding: 18px !important; 
+    font-weight: 800 !important; letter-spacing: 1px; border-radius: 16px !important; 
+    background: var(--bg-color) !important; border: 2px solid transparent !important; 
+    transition: var(--trans-smooth); box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); 
+}
 .typing-input:focus { border-color: var(--primary-color) !important; background: white !important; box-shadow: 0 0 0 4px rgba(99,102,241,0.1) !important; }
-.btn-audio-massive { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; border: none; width: 90px; height: 90px; border-radius: 50%; font-size: 2.8rem; margin: 0 auto 25px; display: flex; align-items: center; justify-content: center; box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4); cursor: pointer; transition: 0.2s; }
+
+.btn-audio-massive { 
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); 
+    color: white; border: none; width: 90px; height: 90px; border-radius: 50%; 
+    font-size: 2.8rem; margin: 0 auto 25px; display: flex; align-items: center; justify-content: center; 
+    box-shadow: var(--shadow-float); cursor: pointer; transition: var(--trans-smooth); 
+}
 .btn-audio-massive:active { transform: scale(0.92); }
 
 #type-input.correct-shake, #dict-input.correct-shake { border-color: #10b981 !important; background: #ecfdf5 !important; color: #059669; }
 #type-input.wrong-shake, #dict-input.wrong-shake { border-color: #ef4444 !important; background: #fef2f2 !important; color: #dc2626; animation: shakeX 0.4s; }
 @keyframes shakeX { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-/* PC Responsive */
+/* =========================================
+   7. KẾT QUẢ & BÁO CÁO (RESULT)
+   ========================================= */
+.result-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+.result-stat-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px 15px; border-radius: var(--radius); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.05); }
+.rs-label { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.rs-value { display: block; font-size: 2.2rem; font-weight: 900; color: #10b981; }
+
+.practice-result-card-modern { 
+    background: var(--card-bg); border-radius: var(--radius); padding: 30px 20px; 
+    text-align: center; box-shadow: var(--shadow-md); border: 1px solid rgba(255, 255, 255, 0.6); 
+    animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); width: 100%; margin-top: 15px; 
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
+}
+.practice-result-card-modern.correct { border-top: 6px solid #10b981; }
+.practice-result-card-modern.wrong { border-top: 6px solid #ef4444; }
+.result-body p { margin-bottom: 10px; font-size: 1.05rem; color: var(--text-main); line-height: 1.4; }
+
+@keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+/* =========================================
+   8. RESPONSIVE PC 
+   ========================================= */
 @media (min-width: 768px) {
-    #practice-setup { padding-top: 20px !important; }
-    #practice-workspace { max-width: 440px !important; margin: 0 auto !important; padding-bottom: 90px; padding-top: 10px; }
+    #practice-workspace { 
+        max-width: 440px !important; margin: 0 auto !important; padding-bottom: 90px; padding-top: 10px; 
+        position: relative; height: 100%; border-radius: var(--radius); box-shadow: var(--shadow-lg); 
+    }
+    .flashcard-controls { position: absolute; border-radius: 0 0 var(--radius) var(--radius); padding: 15px 30px; }
+    .fc-mobile-hint { display: none; }
+    .fc-pc-hint { display: block; }
+    .fc-nav-btn { width: 60px; height: 60px; font-size: 1.6rem; }
     .word-modern { font-size: 2.6rem !important; }
     .glass-word-card { padding: 25px 20px !important; gap: 15px !important; }
     .btn-audio-modern { width: 50px !important; height: 50px !important; font-size: 1.4rem !important; }
-    .practice-header-modern { margin-bottom: 20px !important; }
-    .glass-explanation { padding: 15px !important; margin-top: 10px !important; }
-    .btn-next-modern { padding: 14px !important; font-size: 1.05rem !important; }
     .quiz-option-modern { padding: 10px 15px !important; }
 }
 
-/* Dark Mode */
+/* =========================================
+   9. DARK MODE SUPPORT
+   ========================================= */
 body.dark-theme .mode-content { background: #0f172a; border-color: #334155; }
 body.dark-theme .glass-word-card, body.dark-theme .glass-explanation { background: rgba(30, 41, 59, 0.7); border-color: rgba(255,255,255,0.1); }
 body.dark-theme .quiz-option-modern { background: var(--card-bg); border-color: transparent; }
@@ -94,165 +250,12 @@ body.dark-theme .quiz-option-modern:hover { border-color: var(--primary-color); 
 body.dark-theme .quiz-option-modern .opt-label { background: #0f172a; border-color: #334155; }
 body.dark-theme .flashcard-face { background: #1e293b; border-color: #334155; }
 body.dark-theme .flashcard-back { background: rgba(99, 102, 241, 0.1); border-color: var(--primary-color); }
-
-/* =========================================
-   UI GAMIFICATION (PROGRESS & RESULT)
-   ========================================= */
-
-/* Header có Thanh Tiến Độ */
-.practice-header-modern { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; width: 100%; gap: 15px; }
-
-.session-progress-container {
-    flex: 1; height: 12px; background: var(--border-color); border-radius: 10px; overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-}
-.session-progress-bar {
-    height: 100%; width: 0%; background: linear-gradient(90deg, #3b82f6, #10b981);
-    border-radius: 10px; transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.streak-badge span { font-variant-numeric: tabular-nums; } /* Giúp số đếm không bị giật khi đổi số */
-
-/* Màn hình Tổng Kết (Result Dashboard) */
-.result-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-.result-stat-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px 15px; border-radius: 24px; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.05); }
-.rs-label { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.rs-value { display: block; font-size: 2.2rem; font-weight: 900; color: #10b981; }
-
 body.dark-theme .session-progress-container { background: #334155; }
 body.dark-theme .result-stat-box { background: var(--card-bg); border-color: var(--border-color); }
-
-/* =========================================
-   UI KẾT QUẢ ĐÁP ÁN (DYNAMICS RESULT CARD)
-   ========================================= */
-.practice-result-card-modern {
-    background: var(--card-bg);
-    border-radius: 24px;
-    padding: 30px 20px;
-    text-align: center;
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    width: 100%;
-    margin-top: 15px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-}
-
-/* Đánh dấu viền màu theo kết quả */
-.practice-result-card-modern.correct { border-top: 6px solid #10b981; }
-.practice-result-card-modern.wrong { border-top: 6px solid #ef4444; }
-
-.result-body p {
-    margin-bottom: 10px;
-    font-size: 1.05rem;
-    color: var(--text-main);
-    line-height: 1.4;
-}
-
-/* Nút Next thế hệ mới */
-.modern-btn.primary {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-    color: white;
-    border: none;
-    padding: 16px;
-    font-size: 1.1rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-    margin-top: 10px;
-}
-.modern-btn.primary:active {
-    transform: scale(0.96);
-    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
-}
-
-/* Animation nảy lên */
-@keyframes popIn {
-    0% { transform: scale(0.9); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* Tối ưu Dark Mode cho Hộp kết quả */
-body.dark-theme .practice-result-card-modern {
-    background: rgba(30, 41, 59, 0.85);
-    border-color: #334155;
-}
-body.dark-theme .result-body {
-    background: #0f172a !important;
-    border-color: #334155 !important;
-}
+body.dark-theme .practice-result-card-modern { background: rgba(30, 41, 59, 0.85); border-color: #334155; }
+body.dark-theme .result-body { background: #0f172a !important; border-color: #334155 !important; }
 body.dark-theme .practice-result-card-modern.correct { border-top-color: #059669; }
 body.dark-theme .practice-result-card-modern.wrong { border-top-color: #dc2626; }
-
-/* =========================================
-   BẢNG ĐIỀU KHIỂN FLASHCARD (TỐI ƯU MOBILE & PC)
-   ========================================= */
-.flashcard-controls {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 25px; width: 100%; gap: 15px;
-    background: var(--card-bg); padding: 12px 20px; border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-}
-
-/* Thiết kế nút bấm tối ưu cho Ngón cái (Thumb-friendly) */
-.fc-nav-btn {
-    width: 55px; height: 55px; border-radius: 18px; border: none; font-size: 1.4rem;
-    display: flex; justify-content: center; align-items: center; cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.fc-nav-btn.prev { background: var(--bg-color); color: var(--text-muted); border: 2px solid transparent; }
-.fc-nav-btn.prev:active { transform: scale(0.9) translateX(-5px); }
-.fc-nav-btn.next { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; box-shadow: 0 8px 20px rgba(99,102,241,0.3); }
-.fc-nav-btn.next:active { transform: scale(0.9) translateX(5px); box-shadow: 0 4px 10px rgba(99,102,241,0.2); }
-
-/* Text gợi ý thao tác ở giữa */
-.fc-hint { text-align: center; flex: 1; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
-.fc-pc-hint { display: none; }
-.fc-pc-hint kbd { 
-    background: var(--bg-color); border: 1px solid var(--border-color); 
-    padding: 4px 8px; border-radius: 8px; box-shadow: 0 2px 0 var(--border-color); 
-    font-family: monospace; color: var(--text-main); font-size: 0.9rem; margin: 0 3px; 
-}
-
-/* Tự động tối ưu giao diện trên PC */
-@media (min-width: 768px) {
-    .fc-mobile-hint { display: none; }
-    .fc-pc-hint { display: block; }
-    .flashcard-controls { padding: 15px 30px; margin-top: 35px; }
-    .fc-nav-btn { width: 60px; height: 60px; font-size: 1.6rem; }
-}
-
-/* Hỗ trợ Dark Mode */
 body.dark-theme .flashcard-controls { background: rgba(30, 41, 59, 0.7); border-color: var(--border-color); }
 body.dark-theme .fc-nav-btn.prev { background: #0f172a; border-color: #334155; }
 body.dark-theme .fc-pc-hint kbd { background: #0f172a; border-color: #334155; box-shadow: 0 2px 0 #334155; }
-/* =========================================
-   WORKSPACE LUYỆN TẬP TỔNG THỂ (Đã Fix Layout để Vuốt TikTok)
-   ========================================= */
-#practice-workspace {
-    position: fixed; top: 0; left: 0; width: 100%; 
-    height: 100vh; height: 100dvh; /* FIX TRỌNG TÂM: Khóa khung màn hình chính xác */
-    display: flex; flex-direction: column; align-items: center;
-    background: var(--bg-color); z-index: 100;
-    overflow: hidden; /* Khóa cuộn dọc của trình duyệt */
-    padding-bottom: 90px; /* Nhường chỗ cho nút điều khiển cố định */
-}
-
-.flashcard-inner {
-    width: 88%; height: 85%; max-height: 480px; /* Bóp chiều cao lại một xíu để thoáng mắt hơn */
-    box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-}
-
-/* BỘ NÚT ĐIỀU KHIỂN CỐ ĐỊNH Ở ĐÁY MÀN HÌNH */
-.flashcard-controls {
-    position: fixed; bottom: 0; left: 0; width: 100%; gap: 15px;
-    background: var(--card-bg); 
-    padding: 15px 25px calc(15px + env(safe-area-inset-bottom)); /* Né thanh điều hướng ảo của máy */
-    border-radius: 0;
-    border-top: 1px solid var(--border-color);
-    box-shadow: 0 -10px 25px rgba(0,0,0,0.05); z-index: 110;
-}
