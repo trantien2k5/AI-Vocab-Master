@@ -37,11 +37,13 @@ body {
     background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
     background-attachment: fixed;
     color: var(--text-main); 
-    display: flex; justify-content: center; min-height: 100vh; 
+    display: flex; justify-content: center; 
+    min-height: 100vh; min-height: 100dvh; /* FIX: Tự co giãn theo thanh trình duyệt */
     transition: background 0.4s ease, color 0.4s ease; 
 }
 .app-container {
-    width: 100%; max-width: 480px; height: 100vh;
+    width: 100%; max-width: 480px; 
+    height: 100vh; height: 100dvh; /* FIX: Tự co giãn theo thanh trình duyệt */
     background-color: var(--bg-color); position: relative;
     display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
@@ -59,15 +61,15 @@ body {
 
 /* Thanh Nav Mobile (Tối giản, bám đáy chuẩn App) */
 .bottom-nav {
-    position: absolute; 
-    bottom: 0; left: 0; width: 100%; /* Tràn 100% và bám sát đáy */
+    position: fixed; /* FIX: Đổi từ absolute sang fixed để bám chắc vào màn hình */
+    bottom: 0; left: 0; width: 100%; 
     background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     display: flex; justify-content: space-around; align-items: center;
-    padding: 10px 5px 15px 5px; /* Thêm đệm dưới cho các dòng máy tràn viền */
-    border-radius: 16px 16px 0 0; /* Chỉ bo nhẹ 2 góc trên */
-    border-top: 1px solid var(--border-color); /* Viền mỏng phân cách */
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.04); /* Bóng hắt nhẹ lên trên */
-    z-index: 100;
+    padding: 10px 5px calc(15px + env(safe-area-inset-bottom)) 5px; /* FIX: Né thanh trình duyệt và thanh Home OS */
+    border-radius: 16px 16px 0 0; 
+    border-top: 1px solid var(--border-color); 
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.04); 
+    z-index: 1000; /* Nâng quyền ưu tiên hiển thị cao nhất */
 }
 
 .nav-item {
